@@ -14,11 +14,19 @@ const AuthenticationsControllers = require('./controllers/authenticationsControl
 const TokenManager = require('./tokenize/TokenManager');
 const AuthenticationsValidator = require('./validator/authentications');
 
+// product
+const products = require('./api/products');
+const ProductsControllers = require('./controllers/productsControllers');
+const StorageControllers = require('./controllers/storage/storageControllers');
+const ProductsValidator = require('./validator/products');
+
 const ClientError = require('./exceptions/ClientError');
 
 const init = async () => {
   const userControllers = new UserControllers();
   const authenticationsControllers = new AuthenticationsControllers();
+  const productsControllers = new ProductsControllers();
+  const storageControllers = new StorageControllers();
 
   const server = Hapi.server({
     host: process.env.NODE_ENV !== 'production' ? 'localhost' : '0.0.0.0',
@@ -72,6 +80,14 @@ const init = async () => {
         userControllers,
         tokenManager: TokenManager,
         validator: AuthenticationsValidator,
+      },
+    },
+    {
+      plugin: products,
+      options: {
+        controllers: productsControllers,
+        validator: ProductsValidator,
+        storageControllers,
       },
     },
   ]);

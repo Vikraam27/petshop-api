@@ -7,7 +7,7 @@ const routes = (handler) => [
   {
     method: 'GET',
     path: '/profile',
-    handler: handler.registerUserHandler,
+    handler: handler.getProfileHandler,
     options: {
       auth: 'petshop_jwt',
     },

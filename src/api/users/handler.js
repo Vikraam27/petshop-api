@@ -4,6 +4,7 @@ class UserHandler {
     this._controllers = controllers;
 
     this.registerUserHandler = this.registerUserHandler.bind(this);
+    this.getProfileHandler = this.getProfileHandler.bind(this);
   }
 
   async registerUserHandler(request, h) {
@@ -27,6 +28,23 @@ class UserHandler {
         userId,
       },
     }).code(201);
+  }
+
+  async getProfileHandler(request) {
+    const { id } = request.auth.credentials;
+    const data = await this._controllers.getUserProfile(id);
+
+    return {
+      status: 'success',
+      message: 'successfully get user information',
+      data: {
+        userId: data.id,
+        username: data.username,
+        fullname: data.fullname,
+        email: data.email,
+        isAdmin: data.is_admin,
+      },
+    };
   }
 }
 

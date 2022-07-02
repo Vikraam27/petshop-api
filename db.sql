@@ -15,7 +15,7 @@ CREATE DATABASE petshopdb;
 
 GRANT ALL PRIVILEGES ON DATABASE petshopdb TO developer;
 
-sudo -u developer psql --dbname companydb
+sudo -u developer psql --dbname petshopdb
 
 --create table users
 
@@ -32,5 +32,16 @@ CREATE TABLE "users" (
 --create authentication table
 CREATE TABLE "authentications" (
   "refresh_token" TEXT NOT NULL,
+  "created_at" timestamp DEFAULT current_timestamp NOT NULL
+);
+
+--create product table
+CREATE TABLE "products" (
+  "id" VARCHAR(50) PRIMARY KEY,
+  "name" VARCHAR(150) NOT NULL,
+  "category" VARCHAR(50) NOT NULL,
+  "description" TEXT NOT NULL,
+  "image_url" TEXT NOT NULL,
+  "price" INTEGER NOT NULL,
   "created_at" timestamp DEFAULT current_timestamp NOT NULL
 );

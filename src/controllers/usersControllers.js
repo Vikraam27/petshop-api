@@ -85,7 +85,7 @@ class UserControllers {
 
   async getUserProfile(userId) {
     const query = {
-      text: 'SELECT * FROM user_profile WHERE user_id = $1',
+      text: 'SELECT id, email, username, fullname, is_admin FROM users WHERE id = $1',
       values: [userId],
     };
 
