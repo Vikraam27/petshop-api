@@ -8,10 +8,17 @@ const users = require('./api/users');
 const UserControllers = require('./controllers/usersControllers');
 const UserValidator = require('./validator/users');
 
+// authentication
+const authentications = require('./api/authentications');
+const AuthenticationsControllers = require('./controllers/authenticationsControllers');
+const TokenManager = require('./tokenize/TokenManager');
+const AuthenticationsValidator = require('./validator/authentications');
+
 const ClientError = require('./exceptions/ClientError');
 
 const init = async () => {
   const userControllers = new UserControllers();
+  const authenticationsControllers = new AuthenticationsControllers();
 
   const server = Hapi.server({
     host: process.env.NODE_ENV !== 'production' ? 'localhost' : '0.0.0.0',
@@ -44,6 +51,7 @@ const init = async () => {
       credentials: {
         id: artifacts.decoded.payload.id,
         username: artifacts.decoded.payload.username,
+        isAdmin: artifacts.decoded.payload.isAdmin,
       },
     }),
   });
@@ -55,6 +63,15 @@ const init = async () => {
       options: {
         controllers: userControllers,
         validator: UserValidator,
+      },
+    },
+    {
+      plugin: authentications,
+      options: {
+        authenticationsControllers,
+        userControllers,
+        tokenManager: TokenManager,
+        validator: AuthenticationsValidator,
       },
     },
   ]);

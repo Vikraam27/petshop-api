@@ -28,3 +28,9 @@ CREATE TABLE "users" (
   "is_admin" BOOL DEFAULT false NOT NULL,
   "created_at" timestamp DEFAULT current_timestamp NOT NULL
 );
+
+--create authentication table
+CREATE TABLE "authentications" (
+  "refresh_token" TEXT NOT NULL,
+  "created_at" timestamp DEFAULT current_timestamp NOT NULL
+);

@@ -30,10 +30,10 @@ class UserControllers {
     return result.rows[0].id;
   }
 
-  async verifyUserCredential(email, password) {
+  async verifyUserCredential(username, password) {
     const query = {
-      text: 'SELECT id, email, username, is_email_verified, password FROM users WHERE email = $1',
-      values: [email],
+      text: 'SELECT id, username, is_admin, password FROM users WHERE username = $1',
+      values: [username],
     };
 
     const result = await this._pool.query(query);
@@ -43,7 +43,7 @@ class UserControllers {
     }
 
     const {
-      id, email: userMail, username, password: hashedPassword, is_email_verified: isEmailVerified,
+      id, username: userName, password: hashedPassword, is_admin: isAdmin,
     } = result.rows[0];
 
     const match = await compare(password, hashedPassword);
@@ -53,7 +53,7 @@ class UserControllers {
     }
 
     return {
-      id, username, userMail, isEmailVerified,
+      id, username: userName, isAdmin,
     };
   }
 
