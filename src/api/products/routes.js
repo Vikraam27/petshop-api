@@ -4,7 +4,6 @@ const routes = (handler) => [
     path: '/upload',
     handler: handler.uploadPictureHandler,
     options: {
-      auth: 'petshop_jwt',
       payload: {
         allow: 'multipart/form-data',
         multipart: true,

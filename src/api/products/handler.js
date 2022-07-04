@@ -12,22 +12,18 @@ class UploadsHandler {
   }
 
   async uploadPictureHandler(request) {
-    const { isAdmin } = request.auth.credentials;
-    if (isAdmin) {
-      const { data } = request.payload;
-      this._validator.validateImageHeaders(data.hapi.headers);
+    const { data } = request.payload;
+    this._validator.validateImageHeaders(data.hapi.headers);
 
-      const fileUrl = await this._storageControllers.uploadProfilePhoto(data);
+    const fileUrl = await this._storageControllers.uploadProfilePhoto(data);
 
-      return {
-        status: 'success',
-        message: 'successfully upload image',
-        data: {
-          fileUrl,
-        },
-      };
-    }
-    throw new AuthorizationError('you dont have authorization for this resource');
+    return {
+      status: 'success',
+      message: 'successfully upload image',
+      data: {
+        fileUrl,
+      },
+    };
   }
 
   async addProductHandler(request, h) {
