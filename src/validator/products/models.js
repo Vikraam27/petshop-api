@@ -12,4 +12,8 @@ const AddProductModels = Joi.object({
   price: Joi.number().required(),
 });
 
-module.exports = { ImageHeadersModels, AddProductModels };
+const OrderProduct = Joi.object({
+  quantity: Joi.number().required(),
+});
+
+module.exports = { ImageHeadersModels, AddProductModels, OrderProduct };

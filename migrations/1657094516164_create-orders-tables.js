@@ -1,30 +1,34 @@
 exports.up = (pgm) => {
-  pgm.createTable('products', {
+  pgm.createTable('orders', {
     id: {
       type: 'VARCHAR(50)',
       primaryKey: true,
     },
-    name: {
+    product_id: {
+      type: 'VARCHAR(50)',
+      notNull: true,
+      references: 'products(id)',
+      onDelete: 'CASCADE',
+    },
+    product_name: {
       type: 'VARCHAR(150)',
       notNull: true,
     },
-    category: {
+    username: {
       type: 'VARCHAR(50)',
       notNull: true,
-    },
-    description: {
-      type: 'TEXT',
-      notNull: true,
-    },
-    image_url: {
-      type: 'TEXT',
-      notNull: true,
+      references: 'users(username)',
+      onDelete: 'CASCADE',
     },
     price: {
       type: 'INTEGER',
       notNull: true,
     },
-    is_delete: {
+    quantity: {
+      type: 'INTEGER',
+      notNull: true,
+    },
+    is_completed: {
       type: 'BOOL',
       notNull: true,
       default: false,
@@ -38,5 +42,5 @@ exports.up = (pgm) => {
 };
 
 exports.down = (pgm) => {
-  pgm.dropTable('products');
+  pgm.dropTable('orders');
 };

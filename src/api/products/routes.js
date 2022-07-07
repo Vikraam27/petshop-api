@@ -24,6 +24,27 @@ const routes = (handler) => [
     path: '/products',
     handler: handler.getAllProductsHandler,
   },
+  {
+    method: 'DELETE',
+    path: '/product/{productId}',
+    handler: handler.deleteProductHandler,
+    options: {
+      auth: 'petshop_jwt',
+    },
+  },
+  {
+    method: 'GET',
+    path: '/product/{productId}',
+    handler: handler.getProductByIdHanlder,
+  },
+  {
+    method: 'POST',
+    path: '/order/{productId}',
+    handler: handler.postOrderHandler,
+    options: {
+      auth: 'petshop_jwt',
+    },
+  },
 ];
 
 module.exports = routes;

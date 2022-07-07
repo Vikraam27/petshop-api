@@ -43,5 +43,18 @@ CREATE TABLE "products" (
   "description" TEXT NOT NULL,
   "image_url" TEXT NOT NULL,
   "price" INTEGER NOT NULL,
+  "is_delete" BOOL DEFAULT false NOT NULL,
+  "created_at" timestamp DEFAULT current_timestamp NOT NULL
+);
+
+--create order table
+CREATE TABLE "orders" (
+  "id" VARCHAR(50) PRIMARY KEY,
+  "product_id" VARCHAR(50) NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+  "product_name" VARCHAR(150) NOT NULL,
+  "username" VARCHAR(50) NOT NULL REFERENCES users(username) ON DELETE CASCADE,
+  "price" INTEGER NOT NULL,
+  "quantity" INTEGER NOT NULL,
+  "is_completed" BOOL DEFAULT false NOT NULL,
   "created_at" timestamp DEFAULT current_timestamp NOT NULL
 );

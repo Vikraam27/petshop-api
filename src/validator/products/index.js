@@ -1,5 +1,5 @@
 const InvariantError = require('../../exceptions/InvariantError');
-const { AddProductModels, ImageHeadersModels } = require('./models');
+const { AddProductModels, ImageHeadersModels, OrderProduct } = require('./models');
 
 const ProductsValidator = {
   validateImageHeaders: (headers) => {
@@ -11,6 +11,13 @@ const ProductsValidator = {
   },
   validateAddProducts: (payload) => {
     const validationResult = AddProductModels.validate(payload);
+
+    if (validationResult.error) {
+      throw new InvariantError(validationResult.error.message);
+    }
+  },
+  validateOrderProduct: (payload) => {
+    const validationResult = OrderProduct.validate(payload);
 
     if (validationResult.error) {
       throw new InvariantError(validationResult.error.message);
