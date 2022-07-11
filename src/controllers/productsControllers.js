@@ -72,6 +72,42 @@ class ProductsControllers {
 
     return rows[0];
   }
+
+  async getAllOrderByUsername(username) {
+    const query = {
+      text: 'SELECT * FROM orders WHERE username = $1',
+      values: [username],
+    };
+
+    const { rows } = await this._pool.query(query);
+
+    return rows.map((data) => ({
+      ...data,
+      total: data.price * data.quantity,
+    }));
+  }
+
+  async getAllOrder() {
+    const query = {
+      text: 'SELECT * FROM orders',
+    };
+
+    const { rows } = await this._pool.query(query);
+
+    return rows.map((data) => ({
+      ...data,
+      total: data.price * data.quantity,
+    }));
+  }
+
+  async updateCompleteOrder(orderId) {
+    const query = {
+      text: 'UPDATE orders SET is_completed = true WHERE id = $1',
+      values: [orderId],
+    };
+
+    await this._pool.query(query);
+  }
 }
 
 module.exports = ProductsControllers;

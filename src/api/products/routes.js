@@ -45,6 +45,22 @@ const routes = (handler) => [
       auth: 'petshop_jwt',
     },
   },
+  {
+    method: 'GET',
+    path: '/orders',
+    handler: handler.getAllOrdersHanlder,
+    options: {
+      auth: 'petshop_jwt',
+    },
+  },
+  {
+    method: 'PUT',
+    path: '/order/{orderId}',
+    handler: handler.putOrderCompleteHandler,
+    options: {
+      auth: 'petshop_jwt',
+    },
+  },
 ];
 
 module.exports = routes;

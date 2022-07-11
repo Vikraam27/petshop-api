@@ -12,6 +12,8 @@ class UploadsHandler {
     this.deleteProductHandler = this.deleteProductHandler.bind(this);
     this.getProductByIdHanlder = this.getProductByIdHanlder.bind(this);
     this.postOrderHandler = this.postOrderHandler.bind(this);
+    this.getAllOrdersHanlder = this.getAllOrdersHanlder.bind(this);
+    this.putOrderCompleteHandler = this.putOrderCompleteHandler.bind(this);
   }
 
   async uploadPictureHandler(request) {
@@ -107,6 +109,39 @@ class UploadsHandler {
         total: price * quantity,
       },
     }).code(201);
+  }
+
+  async getAllOrdersHanlder(request) {
+    const { username, isAdmin } = request.auth.credentials;
+    if (isAdmin === true) {
+      const data = await this._controllers.getAllOrder();
+
+      return {
+        status: 'success',
+        data,
+      };
+    }
+    const data = await this._controllers.getAllOrderByUsername(username);
+
+    return {
+      status: 'success',
+      data,
+    };
+  }
+
+  async putOrderCompleteHandler(request) {
+    const { orderId } = request.params;
+    const { isAdmin } = request.auth.credentials;
+
+    if (isAdmin === true) {
+      await this._controllers.updateCompleteOrder(orderId);
+
+      return {
+        status: 'success',
+        message: 'successfully complete order',
+      };
+    }
+    throw new AuthorizationError('you dont have authorization for this resource');
   }
 }
 
